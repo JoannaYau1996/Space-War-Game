@@ -5,6 +5,7 @@
   --title-shadow: 0 0 10px #a1a7ce, 0 0 30px #5b67c8, 0 0 30px #230674;
   --ufo-width: 20%;
   --ufo-mobile-width: 12vh;
+  --box-bg: rgba(33,35,69,0.5);
 }
 
 * {
@@ -32,7 +33,7 @@ html {
   top: 6px;
   left: 6px;
   cursor: pointer;
-  z-index: 99;
+  z-index: 30;
   transition: 1s ease;
   opacity: 0.5;
 }
@@ -427,7 +428,7 @@ html {
 .start_game_btn {
   position: absolute;
   top: 35%;
-  z-index: 99;
+  z-index: 1;
   width: 40%;
   height: 10%;
 }
@@ -499,12 +500,14 @@ html {
 
 .space-ship {
   position: absolute;
+  z-index: 40;
   bottom: 30px;
   width: 15%;
   filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4));
 }
 
 .setting-box {
+  position: absoulte;
   box-shadow:
   inset 5px 5px 10px #e3caed,
   inset -5px -8px 10px #364e87,
@@ -513,29 +516,79 @@ html {
   border-top-right-radius: 100px 100px;
   border-bottom-right-radius: 100px 100px;
   border-bottom-left-radius: 100px 100px;
-  border: 1px solid #fff;
+  border: 1px solid #7c87b1;
   backdrop-filter: blur(60px);
-  width: 80%;
+  width: 90%;
   max-width: 500px;
   height: 70%;
-  background: var(--title-shing-color);
+  background: var(--box-bg);
   z-index: 99;
+}
+
+. box-title {
+  text-shadow: 3px 3px #272145;
+}
+
+.name-input-box {
+  box-shadow:
+  inset 5px 5px 10px #e3caed,
+  inset -5px -8px 10px #364e87,
+  5px 5px 20px #272626;
+  border-top-left-radius: 100px 100px;
+  border-top-right-radius: 100px 100px;
+  border-bottom-right-radius: 100px 100px;
+  border-bottom-left-radius: 100px 100px;
+  border: 1px solid #7c87b1;
+  backdrop-filter: blur(20px);
+  width: 90%;
+  max-width: 500px;
+  height: auto;
+  background: var(--box-bg);
+  z-index: 99;
+}
+.name-input-box input {
+  background: rgba(0,0,0,0.4);
+  border: none;
+  box-shadow: inset 0 0 2px 2px rgb(26, 28, 13, 0.3), 0 0 15px 2px rgba(255,255,255,0.3);
+  display: block;
+  width: 90%;
+  height: 60px;
+  border-radius: 50px 50px;
+  color: #fff;
+  padding: 20px
 }
 
 .setting-menu {
   width: 100%;
-  height: 70%;
+  height: 100%;
   border-top-left-radius: 50px 50px;
   border-top-right-radius: 50px 50px;
   border-bottom-right-radius: 80px 80px;
   border-bottom-left-radius: 80px 80px;
-  background: rgba(145, 156, 38, 0.3);
+  background: rgb(194, 177, 103, 0.5);
+  box-shadow: inset 0 0 10px 5px rgb(26, 28, 13, 0.6);
+  color: #140400;
 }
 
-.setting-back-btn {
-  border-radius: 1000px !important;
-  width: 50%;
+.name-reminder {
+  color: #ff3838;
+  font-size: 0.85rem;
 }
+
+.black_block {
+  width: 100%;
+  position: absoulte;
+  height: 100vh;
+  opacity: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 40;
+  animation: 1s fade-in forwards;
+}
+
+p {
+  word-spacing: 5px;
+}
+
 
 
 
@@ -545,28 +598,6 @@ html {
   }
   to {
       transform: translateY(0px);
-  }
-}
-
-@keyframes fly-in {
-  100% {
-    top: -200px;
-    right: calc(50%);
-  }
-  0% {
-    top: 100px;
-    right: -100px;
-  }
-}
-
-@keyframes fly-in-hold {
-  100% {
-    top: 40px;
-    right: calc(50% - --ufo-width / 2);
-  }
-  0% {
-    top: -100px;
-    right: calc(50% - --ufo-width / 2);
   }
 }
 
@@ -621,6 +652,110 @@ html {
   }
 }
 
+@keyframes fly-in {
+  100% {
+    top: -200px;
+    right: calc(50%);
+    display: none;
+  }
+  0% {
+    top: 100px;
+    right: -100px;
+  }
+}
+
+@keyframes fly-in-hold {
+  100% {
+    top: 40px;
+    right: calc(50% - --ufo-width / 2);
+  }
+  0% {
+    top: -100px;
+    right: calc(50% - --ufo-width / 2);
+  }
+}
+
+@keyframes fade-in {
+  from{
+    opacity: 0;
+  }
+  to{
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from{
+    opacity: 1;
+  }
+  to{
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in-out {
+  100%{
+    opacity: 0;
+  }
+  50%{
+    opacity: 1;
+  }
+  0%{
+    opacity: 0;
+  }
+}
+
+
+
+@keyframes ufo-fly-out-top {
+  100% {
+    top: -100px;
+    right: calc(50% - --ufo-width / 2);
+    display: none;
+  }
+  0% {
+    top: 60px;
+    right: calc(50% - --ufo-width / 2);
+  }
+}
+
+@keyframes title-fly-out-top {
+  100% {
+    font-size: 10vh;
+    top: -100px;
+    text-shadow: var(--title-shadow);
+    opacity: 0;
+  }
+  0% {
+    font-size: 10vh;
+    top: 21%;
+    text-shadow: var(--title-shadow);
+  }
+}
+@keyframes play-fly-out-bottom {
+  100% {
+    top: 120%;
+    opacity: 0;
+  }
+  0%{
+    top: 35%;
+  }
+}
+
+@keyframes earth-fly-out-bottom {
+  100% {
+    top: 120%;
+    opacity: 0;
+  }
+  0% {
+    top: 60%;
+  }
+}
+
+
+
+
+
 
 @media (max-width: 1024px) {
   .gameContainer {
@@ -640,7 +775,7 @@ html {
   .start_game_btn {
     position: absolute;
     top: 35%;
-    z-index: 99;
+    z-index: 1;
     width: 20vh;
     height: 10vh;
   }

@@ -13,7 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^5.2.2",
-    "react-bootstrap": "^2.6.0"
+    "react-bootstrap": "^2.6.0",
+    "react-typewriter-effect": "^1.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.15",

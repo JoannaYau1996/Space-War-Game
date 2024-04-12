@@ -3,9 +3,9 @@ export const lang = [{
     en: 'Setting',
     ch: '设置',
   },
-  volume: {
-    en: 'Volume',
-    ch: '音量',
+  sound: {
+    en: 'Sound',
+    ch: '音效',
   },
   pause: {
     en: 'Pause',
