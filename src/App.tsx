@@ -1,14 +1,16 @@
-import './App.css'
 import { useState, useRef, useEffect } from 'react';
+import './App.css'
 
 
 
 export default function App() {
+
   const username_value = useRef("");
   const intros = useRef([]);
   const go_top_el = useRef([]);
   const go_bottom_el = useRef([]);
 
+  const [home, setHome] = useState(true);
   const [opening, setOpening] = useState(false);
   const [intro, setIntro] = useState(false);
   const [directions, SetDirections] = useState(false);
@@ -27,14 +29,17 @@ export default function App() {
   const [pause, setPause] = useState(false);
 
 
-  function startGame() {
+  function showIntro() {
     if (username_value.current.value === "") {
       setNameReminder(true);
     }
+
     setOpening(false);
     setTimeout(() => {
       setIntro(true);
+      setHome(false);
     }, 1000);
+
     go_top_el.current[0].style.animation = "ufo-fly-out-top 0.5s ease-out forwards";
     go_top_el.current[1].style.animation = "title-fly-out-top 1s ease-out forwards";
     go_bottom_el.current[0].style.animation = "play-fly-out-bottom 0.5s ease-out forwards";
@@ -44,21 +49,29 @@ export default function App() {
   function showDirections() {
     intros.current[0].style.animation = "fade-out 0.5s ease-out forwards";
     SetDirections(true);
+
     setTimeout(() => {
       intros.current[0].style.animation = "fade-in 1s ease-in forwards";
     }, 100);
   }
 
+
   function readyStartGame() {
     intros.current[0].style.animation = "fade-out 1s ease-out forwards";
+    SetDirections(true);
+
     setTimeout(() => {
       intros.current[1].style.animation = "fade-in-out 2s ease-in-out forwards";
     }, 1000);
+
     setTimeout(() => {
+      setIntro(false);
       SetDirections(false);
       setReadyStart(true);
     }, 3000);
   }
+
+
 
   return (
     <div className="bg-dark vh-100 w-100 d-flex justify-content-center align-items-center p-10">
@@ -71,12 +84,14 @@ export default function App() {
             <img src="setting.svg" className='w-100' />
           </a>
         </div>
-        <div className='vh-100 w-100 d-flex flex-column justify-content-center align-items-center position-relative' style={{ background: `radial-gradient(ellipse at top,  ${bgTopColor}, transparent), radial-gradient(ellipse at bottom, ${bgBottomColor}, transparent)` }}>
+        <div className='vh-100 w-100 d-flex flex-column justify-content-center align-items-center position-relative'
+          style={{ background: `radial-gradient(ellipse at top,  ${bgTopColor}, transparent), radial-gradient(ellipse at bottom, ${bgBottomColor}, transparent)` }}
+        >
           <div className='bg-stars'>
             <div className='stars' style={{ animation: `translateY ${speed}s linear infinite` }}></div>
           </div>
 
-          {!start && !intro && !gameover && !win && (
+          {home && (
             <>
               <img src="ufo1.svg" className='ufo-01 ufo' />
               <img src="ufo.svg" className='ufo-02 ufo' ref={(el) => (go_top_el.current[0] = el)} />
@@ -112,11 +127,11 @@ export default function App() {
                   <span className='name-reminder mt-2'>Sorry, Name is required</span>
                 </>
               )}
-              <button className="btn btn-danger mt-4" onClick={startGame}>Start</button>
+              <button className="btn btn-danger mt-4" onClick={showIntro}>Start</button>
             </div>
           )}
 
-          {intro && !readyStart && (
+          {intro && (
             <div className='black_block d-flex align-items-center justify-content-center text-center flex-column p-5'>
               {!directions && (
                 <div ref={(el) => (intros.current[0] = el)}>
@@ -130,35 +145,38 @@ export default function App() {
               )}
 
               {directions && (
-                <div ref={(el) => (intros.current[0] = el)} style={{ opacity: '0' }}>
-                  <p className="text-light">
-                    You have a total of 3 hearts.
-                    <br />
-                    Every time you get hit, you will lose one heart.
-                  </p>
-                  <p className="text-light">
-                    If you lose all 3 hearts, the mission will be over!
-                  </p>
-                  <p className="text-light">
-                    Your mission is protect our planet while keeping yourself safe.
-                  </p>
-                  <p className="text-light">
-                    Are you ready to begin your mission?
-                  </p>
-                  <button className='btn btn-success' onClick={readyStartGame}>
-                    I'm Ready
-                  </button>
-                </div>
-              )}
-              {!start && (
-                <div ref={(el) => (intros.current[1] = el)} style={{ opacity: '0' }}>
-                  <p className="text-light">
-                    Good luck, {username}!
-                  </p>
-                </div>
+                <>
+                  <div ref={(el) => (intros.current[0] = el)} style={{ opacity: '0' }}>
+                    <p className="text-light">
+                      You have a total of 3 hearts.
+                      <br />
+                      Every time you get hit, you will lose one heart.
+                    </p>
+                    <p className="text-light">
+                      If you lose all 3 hearts, the mission will be over!
+                    </p>
+                    <p className="text-light">
+                      Your mission is protect our planet while keeping yourself safe.
+                    </p>
+                    <p className="text-light">
+                      Are you ready to begin your mission?
+                    </p>
+                    <button className='btn btn-success' onClick={readyStartGame}>
+                      I'm Ready
+                    </button>
+                  </div>
+
+                  <div ref={(el) => (intros.current[1] = el)} style={{ opacity: '0' }}>
+                    <p className="text-light">
+                      Good luck, {username}!
+                    </p>
+                  </div>
+                </>
               )}
             </div>
           )}
+
+
 
           {setting && (
             <div className='setting-box text-center d-flex p-4 flex-column align-items-center'>
