@@ -9,33 +9,78 @@ export default function App() {
   const intros = useRef([]);
   const go_top_el = useRef([]);
   const go_bottom_el = useRef([]);
+  const hearts = useRef([]);
+  const aliens = useRef([]);
 
+  const [setting, setSetting] = useState(false);
   const [home, setHome] = useState(true);
+  const [username, setUsername] = useState("");
+  const [nameReminder, setNameReminder] = useState(false);
   const [opening, setOpening] = useState(false);
   const [intro, setIntro] = useState(false);
   const [directions, SetDirections] = useState(false);
   const [readyStart, setReadyStart] = useState(false);
-  const [nameReminder, setNameReminder] = useState(false);
-  const [username, setUsername] = useState("");
+  const [countdown, setCountdown] = useState(3);
   const [start, setStart] = useState(false);
   const [speed, setSpeed] = useState(25);
   const [bgTopColor, setBgTopColor] = useState("#000000");
   const [bgBottomColor, setBgBottomColor] = useState("#282369");
   const [gameover, setGameOver] = useState(false);
   const [win, setWin] = useState(false);
-  const [setting, setSetting] = useState(false);
   const [score, setScore] = useState(0);
   const [volume, setVolume] = useState(0.5);
   const [pause, setPause] = useState(false);
 
 
-  function showIntro() {
-    if (username_value.current.value === "") {
-      setNameReminder(true);
-    }
+  useEffect(() => {
+    if (readyStart) {
+      const intervalId = setInterval(() => {
+        setCountdown((countdown) => {
+          return (countdown === 0) ? 0 : countdown - 1;
+        });
+      }, 1000);
 
+      setTimeout(() => {
+        setStart(true);
+      }, 3000)
+
+      return () => {
+        clearInterval(intervalId);
+      };
+    }
+  }, [readyStart]);
+
+
+  useEffect(() => {
+    if (start) {
+      const intervalId = setInterval(() => {
+        setScore((score) => {
+          return score + 1;
+        });
+      }, 1000);
+
+      const intervalId2 = setInterval(() => {
+        const row = Math.floor(Math.random() * 4);
+        const number = Math.floor(Math.random() * 3)
+
+      }, 3000);
+
+      return () => {
+        clearInterval(intervalId);
+        clearInterval(intervalId2);
+      };
+    }
+  }, [start]);
+
+  function showIntro() {
+    console.log(username_value.current.value.length);
+    if (username_value.current.value.length === 0) {
+      setNameReminder(true);
+      return;
+    }
     setOpening(false);
     setTimeout(() => {
+      setSetting(false);
       setIntro(true);
       setHome(false);
     }, 1000);
@@ -44,7 +89,7 @@ export default function App() {
     go_top_el.current[1].style.animation = "title-fly-out-top 1s ease-out forwards";
     go_bottom_el.current[0].style.animation = "play-fly-out-bottom 0.5s ease-out forwards";
     go_bottom_el.current[1].style.animation = "play-fly-out-bottom 1s ease-out forwards";
-  }
+  };
 
   function showDirections() {
     intros.current[0].style.animation = "fade-out 0.5s ease-out forwards";
@@ -53,7 +98,7 @@ export default function App() {
     setTimeout(() => {
       intros.current[0].style.animation = "fade-in 1s ease-in forwards";
     }, 100);
-  }
+  };
 
 
   function readyStartGame() {
@@ -62,6 +107,7 @@ export default function App() {
 
     setTimeout(() => {
       intros.current[1].style.animation = "fade-in-out 2s ease-in-out forwards";
+      intros.current[0].style.height = "0";
     }, 1000);
 
     setTimeout(() => {
@@ -69,7 +115,7 @@ export default function App() {
       SetDirections(false);
       setReadyStart(true);
     }, 3000);
-  }
+  };
 
 
 
@@ -118,8 +164,8 @@ export default function App() {
                 <label>Your Name</label>
               </h2>
               <input type="text" ref={username_value} onChange={(e) => {
-                setUsername(e.target.value);
                 setNameReminder(false);
+                setUsername(e.target.value);
               }
               } />
               {nameReminder && (
@@ -176,7 +222,42 @@ export default function App() {
             </div>
           )}
 
+          {readyStart && (
+            <>
+              <div className='hearts d-flex'>
+                <span ref={(el) => hearts.current[0] = el}>
+                  <img src='heart.svg' />
+                </span>
+                <span ref={(el) => hearts.current[1] = el}>
+                  <img src='heart.svg' />
+                </span>
+                <span ref={(el) => hearts.current[2] = el}>
+                  <img src='heart.svg' />
+                </span>
+              </div>
 
+              {!start && (
+                <>
+                  <div className="text-light">
+                    {countdown}
+                  </div>
+                </>
+              )}
+
+              <div className='score text-light'>
+                <span>{score}s</span>
+              </div>
+            </>
+          )}
+
+          {start && (
+            <div className='ufo-container text-light row'>
+              <div className='ufo-left ufo-row col-3' ref={(el) => aliens.current[0] = el}></div>
+              <div className='ufo-center ufo-row col-3' ref={(el) => aliens.current[1] = el}></div>
+              <div className='ufo-right ufo-row col-3' ref={(el) => aliens.current[2] = el}></div>
+              <div className='ufo-right ufo-row col-3' ref={(el) => aliens.current[3] = el}></div>
+            </div>
+          )}
 
           {setting && (
             <div className='setting-box text-center d-flex p-4 flex-column align-items-center'>

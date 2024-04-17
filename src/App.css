@@ -3,9 +3,10 @@
 :root {
   --title-shing-color: #212345;
   --title-shadow: 0 0 10px #a1a7ce, 0 0 30px #5b67c8, 0 0 30px #230674;
-  --ufo-width: 20%;
+  --ufo-width: 10vh;
   --ufo-mobile-width: 12vh;
   --box-bg: rgba(33,35,69,0.5);
+  --top-icon-width: 40px;
 }
 
 * {
@@ -21,7 +22,7 @@ html {
 }
 
 .gameContainer {
-  max-width: 35vw;
+  max-width: 768px;
   width: 100%;
   height: 100vh;
   position: relative;
@@ -29,7 +30,8 @@ html {
 }
 
 .setting-icon {
-  width: 40px;
+  width: var(--top-icon-width);
+  height: var(--top-icon-width);
   top: 6px;
   left: 6px;
   cursor: pointer;
@@ -435,8 +437,8 @@ html {
 
 .start_game_btn button {
   cursor: pointer;
-  font-size: 5vh;
-  scale: 1.2;
+  font-size: 4vh;
+  width: 2vw;
   transition: 1s ease;
   text-shadow: 3px 3px #272145;
   box-shadow:
@@ -452,7 +454,7 @@ html {
 }
 
 .start_game_btn button:hover {
-  scale: 1.4;
+  scale: 1.2;
   border-top-left-radius: 255px 150px;
   border-top-right-radius: 150px 225px;
   border-bottom-right-radius: 225px 150px;
@@ -502,7 +504,7 @@ html {
   position: absolute;
   z-index: 40;
   bottom: 30px;
-  width: 15%;
+  width: var(--ufo-width);
   filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4));
 }
 
@@ -519,14 +521,18 @@ html {
   border: 1px solid #7c87b1;
   backdrop-filter: blur(60px);
   width: 90%;
-  max-width: 500px;
+  max-width: 600px;
   height: 70%;
   background: var(--box-bg);
   z-index: 99;
 }
 
-. box-title {
+.box-title {
   text-shadow: 3px 3px #272145;
+}
+
+.box-title label{
+  font-size: 3vh;
 }
 
 .name-input-box {
@@ -541,18 +547,18 @@ html {
   border: 1px solid #7c87b1;
   backdrop-filter: blur(20px);
   width: 90%;
-  max-width: 500px;
-  height: auto;
+  max-width: 600px;
   background: var(--box-bg);
   z-index: 99;
 }
+
 .name-input-box input {
   background: rgba(0,0,0,0.4);
   border: none;
   box-shadow: inset 0 0 2px 2px rgb(26, 28, 13, 0.3), 0 0 15px 2px rgba(255,255,255,0.3);
   display: block;
   width: 90%;
-  height: 60px;
+  height: 70px;
   border-radius: 50px 50px;
   color: #fff;
   padding: 20px
@@ -572,7 +578,7 @@ html {
 
 .name-reminder {
   color: #ff3838;
-  font-size: 0.85rem;
+  font-size: 1.8vh;
 }
 
 .black_block {
@@ -587,7 +593,43 @@ html {
 
 p {
   word-spacing: 5px;
+  font-size: 2.5vh;
 }
+
+.name-input-box .btn,
+.black_block .btn {
+  font-size: 2.3vh;
+}
+
+.hearts {
+  position: absolute;
+  top: -100px;
+  right: 6px;
+  height: 30px;
+  animation: hearts-slide-in 1s ease forwards;
+}
+
+.hearts img {
+  height: 100%;
+  margin-right: 10px;
+}
+
+.score {
+  position: absolute;
+  bottom: -100px;
+  animation: score-slide-in 1s ease forwards;
+
+}
+
+.ufo-container {
+  width: 100%;
+  position: absolute;
+  height: 100vh;
+  display: flex;
+}
+
+
+
 
 
 
@@ -636,7 +678,7 @@ p {
 
 @keyframes bounce-in {
   100% {
-    font-size: 10vh;
+    font-size: 8vh;
     top: 20%;
     text-shadow: var(--title-shadow);
   }
@@ -752,12 +794,30 @@ p {
   }
 }
 
+@keyframes hearts-slide-in {
+  100%{
+    top: 10px;
+  }
+  0%{
+    top: -100px;
+  }
+}
+
+@keyframes score-slide-in {
+  100%{
+    bottom: 0px;
+  }
+  0%{
+    bottom: -100px;
+  }
+}
 
 
 
 
 
-@media (max-width: 1024px) {
+
+@media (max-width: 992px) {
   .gameContainer {
     max-width: 100vw;
     width: 100vw;
@@ -776,14 +836,11 @@ p {
     position: absolute;
     top: 35%;
     z-index: 1;
-    width: 20vh;
+    width: 23vh;
     height: 10vh;
   }
 
-  .start_game_btn button {
-    font-size: 3.5vh;
-  }
-  
+ 
   @keyframes fly-in-hold {
     100% {
       top: 40px;
@@ -795,9 +852,23 @@ p {
     }
   }
 
+  @keyframes title-fly-out-top {
+    100% {
+      font-size: 7vh;
+      top: -100px;
+      text-shadow: var(--title-shadow);
+      opacity: 0;
+    }
+    0% {
+      font-size: 7vh;
+      top: 21%;
+      text-shadow: var(--title-shadow);
+    }
+  }
+  
   @keyframes bounce-in {
     100% {
-      font-size: 13vw;
+      font-size: 7vh;
       top: 20%;
       text-shadow: var(--title-shadow);
     }
